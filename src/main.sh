@@ -31,6 +31,13 @@ function parseInputs {
     exit 1
   fi
 
+  if [ "${INPUT_GCS_CREDS}" != "" ]; then
+    INPUT_GCS_CREDS=${INPUT_GCS_CREDS}
+  else
+    echo "Input INPUT_GCS_CREDS cannot be empty"
+    exit 1
+  fi
+
   # Optional inputs
   tfWorkingDir="."
   if [ "${INPUT_TF_ACTIONS_WORKING_DIR}" != "" ] || [ "${INPUT_TF_ACTIONS_WORKING_DIR}" != "." ]; then
@@ -94,6 +101,7 @@ function installTerraform {
 }
 
 function main {
+
   # Source the other files to gain access to their functions
   scriptDir=$(dirname ${0})
   source ${scriptDir}/terraform_fmt.sh

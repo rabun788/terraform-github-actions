@@ -1,23 +1,25 @@
 #!/bin/bash
 
+BACKEND_BUCKET="${BACKEND_BUCKET:-}"
+PREFIX="${PREFIX:-}"
+echo "${INPUT_GCS_CREDS}" | jq  > /src/google.json
 function terraformInit {
-   env
-   pwd
-   ls -alrt
-   echo "miny=$@"
-   echo "moe=${*}"
-   echo "nips"
    # Gather the output of `terraform init`.
    echo "init: info: initializing Terraform configuration in ${tfWorkingDir}"
-   initOutput=$(terraform init -input=false "${*}" )
+
+   initOutput=$(
+      terraform init -input=false -no-color -force-copy -backend=true -get=true \
+        -backend-config="bucket=${BACKEND_BUCKET}" -backend-config="prefix=${PREFIX}" \
+        -backend-config="credentials=/src/google.json" -backend=true
+      )
+
    echo "${initOutput}"
+   wait
    initExitCode=${?}
+
 
    # Exit code of 0 indicates success. Print the output and exit.
    if [ ${initExitCode} -eq 0 ]; then
-     echo "DUDE"
-     ls -alrt
-     pwd
      echo "init: info: successfully initialized Terraform configuration in ${tfWorkingDir}"
      echo "${initOutput}"
      echo
