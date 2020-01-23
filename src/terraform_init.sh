@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function terraformInit {
-   echo "boobs"
+   env
    pwd
    ls -alrt
    echo "miny=$@"
