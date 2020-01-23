@@ -3,7 +3,9 @@
 function terraformInit {
    pwd
    ls -alrt
-   set -x
+   echo "$@"
+   echo "${*}"
+   
    # Gather the output of `terraform init`.
    echo "init: info: initializing Terraform configuration in ${tfWorkingDir}"
    initOutput=$(terraform init -input=false "${*}" )
