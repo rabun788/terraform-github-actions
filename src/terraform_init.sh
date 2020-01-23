@@ -1,37 +1,38 @@
 #!/bin/bash
 
 function terraformInit {
-  pwd
-  ls -alrt
-  # Gather the output of `terraform init`.
-  echo "init: info: initializing Terraform configuration in ${tfWorkingDir}"
-  initOutput=$(terraform init -input=false ${*} )
-  echo $initOutput
-  initExitCode=${?}
+    terraform init -input=false ${*} 
+#   pwd
+#   ls -alrt
+#   # Gather the output of `terraform init`.
+#   echo "init: info: initializing Terraform configuration in ${tfWorkingDir}"
+#   initOutput=$(terraform init -input=false ${*} )
+#   echo $initOutput
+#   initExitCode=${?}
 
-  # Exit code of 0 indicates success. Print the output and exit.
-  if [ ${initExitCode} -eq 0 ]; then
-    echo "DUDE"
-    ls -alrt
-    pwd
-    echo "init: info: successfully initialized Terraform configuration in ${tfWorkingDir}"
-    echo "${initOutput}"
-    echo
-    exit ${initExitCode}
-  fi
+#   # Exit code of 0 indicates success. Print the output and exit.
+#   if [ ${initExitCode} -eq 0 ]; then
+#     echo "DUDE"
+#     ls -alrt
+#     pwd
+#     echo "init: info: successfully initialized Terraform configuration in ${tfWorkingDir}"
+#     echo "${initOutput}"
+#     echo
+#     exit ${initExitCode}
+#   fi
 
-  # Exit code of !0 indicates failure.
-  echo "init: error: failed to initialize Terraform configuration in ${tfWorkingDir}"
-  echo "${initOutput}"
-  echo
+#   # Exit code of !0 indicates failure.
+#   echo "init: error: failed to initialize Terraform configuration in ${tfWorkingDir}"
+#   echo "${initOutput}"
+#   echo
 
-  # Comment on the pull request if necessary.
-  if [ "$GITHUB_EVENT_NAME" == "pull_request" ] && [ "${tfComment}" == "1" ]; then
-    initCommentWrapper="#### \`terraform init\` Failed
+#   # Comment on the pull request if necessary.
+#   if [ "$GITHUB_EVENT_NAME" == "pull_request" ] && [ "${tfComment}" == "1" ]; then
+#     initCommentWrapper="#### \`terraform init\` Failed
 
-\`\`\`
-${initOutput}
-\`\`\`
+# \`\`\`
+# ${initOutput}
+# \`\`\`
 
 *Workflow: \`${GITHUB_WORKFLOW}\`, Action: \`${GITHUB_ACTION}\`, Working Directory: \`${tfWorkingDir}\`*"
 
