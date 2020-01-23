@@ -5,7 +5,7 @@ function terraformInit {
   ls -alrt
   # Gather the output of `terraform init`.
   echo "init: info: initializing Terraform configuration in ${tfWorkingDir}"
-  initOutput=$(terraform init -input=false ${*} 2>&1)
+  initOutput=$(terraform init -input=false ${*} )
   echo $initOutput
   initExitCode=${?}
 
