@@ -1,11 +1,12 @@
 #!/bin/bash
 
 function terraformInit {
+   echo "boobs"
    pwd
    ls -alrt
-   echo "$@"
-   echo "${*}"
-   
+   echo "miny=$@"
+   echo "moe=${*}"
+   echo "nips"
    # Gather the output of `terraform init`.
    echo "init: info: initializing Terraform configuration in ${tfWorkingDir}"
    initOutput=$(terraform init -input=false "${*}" )
