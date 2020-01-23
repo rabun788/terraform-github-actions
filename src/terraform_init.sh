@@ -23,12 +23,12 @@ function terraformInit {
      echo "init: info: successfully initialized Terraform configuration in ${tfWorkingDir}"
      echo "${initOutput}"
      echo
-     exit ${initExitCode}
+#     exit ${initExitCode}
    fi
 
    # Exit code of !0 indicates failure.
    echo "init: error: failed to initialize Terraform configuration in ${tfWorkingDir}"
-   echo "${initOutput}"
+#   echo "${initOutput}"
    echo
 
    # Comment on the pull request if necessary.
@@ -49,6 +49,6 @@ function terraformInit {
     echo "${initPayload}" | curl -s -S -H "Authorization: token ${GITHUB_TOKEN}" --header "Content-Type: application/json" --data @- "${initCommentsURL}" > /dev/null
   fi
 
-  exit ${initExitCode}
+#  exit ${initExitCode}
 }
 
