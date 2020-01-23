@@ -31,12 +31,7 @@ function parseInputs {
     exit 1
   fi
 
-  if [ "${INPUT_GCS_CREDS}" != "" ]; then
-    INPUT_GCS_CREDS=${INPUT_GCS_CREDS}
-  else
-    echo "Input INPUT_GCS_CREDS cannot be empty"
-    exit 1
-  fi
+
 
   # Optional inputs
   tfWorkingDir="."
@@ -58,6 +53,12 @@ function parseInputs {
   if [ "${INPUT_TF_ACTIONS_CLI_CREDENTIALS_TOKEN}" != "" ]; then
     tfCLICredentialsToken=${INPUT_TF_ACTIONS_CLI_CREDENTIALS_TOKEN}
   fi
+
+  INPUT_GCS_CREDS=""
+  if [ "${INPUT_GCS_CREDS}" != "" ]; then
+    INPUT_GCS_CREDS=${INPUT_GCS_CREDS}
+  fi
+
 }
 
 function configureCLICredentials {
