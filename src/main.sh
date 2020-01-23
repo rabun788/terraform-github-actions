@@ -114,6 +114,8 @@ function main {
 
   parseInputs
   configureCLICredentials
+
+
   cd ${GITHUB_WORKSPACE}/${tfWorkingDir}
 
   case "${tfSubcommand}" in
@@ -134,6 +136,7 @@ function main {
       terraformPlan ${*}
       ;;
     apply)
+      terraformInit ${*}
       installTerraform
       terraformApply ${*}
       ;;

@@ -10,7 +10,7 @@ function terraformInit {
    initOutput=$(
       terraform init -input=false -no-color -force-copy -backend=true -get=true \
         -backend-config="bucket=${BACKEND_BUCKET}" -backend-config="prefix=${PREFIX}" \
-        -backend-config="credentials=/src/google.json" -backend=true
+        -backend-config="credentials=/src/google.json" -backend=true 2>&1
       )
 
    echo "${initOutput}"
