@@ -136,8 +136,8 @@ function main {
       terraformPlan ${*}
       ;;
     apply)
-      terraformInit ${*}
       installTerraform
+      terraformInit ${*}
       terraformApply ${*}
       ;;
     output)
