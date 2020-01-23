@@ -49,6 +49,6 @@ function terraformInit {
     echo "${initPayload}" | curl -s -S -H "Authorization: token ${GITHUB_TOKEN}" --header "Content-Type: application/json" --data @- "${initCommentsURL}" > /dev/null
   fi
 
-  exit ${initExitCode}
+#  exit ${initExitCode}
 }
 
