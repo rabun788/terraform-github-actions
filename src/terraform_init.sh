@@ -1,6 +1,8 @@
 #!/bin/bash
 
 function terraformInit {
+  pwd
+  ls -alrt
   # Gather the output of `terraform init`.
   echo "init: info: initializing Terraform configuration in ${tfWorkingDir}"
   initOutput=$(terraform init -input=false ${*} 2>&1)
@@ -9,6 +11,9 @@ function terraformInit {
 
   # Exit code of 0 indicates success. Print the output and exit.
   if [ ${initExitCode} -eq 0 ]; then
+    echo "DUDE"
+    ls -alrt
+    pwd
     echo "init: info: successfully initialized Terraform configuration in ${tfWorkingDir}"
     echo "${initOutput}"
     echo
