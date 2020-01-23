@@ -106,3 +106,7 @@ The usual [Terraform environment variables](https://www.terraform.io/docs/comman
 * `TF_WORKSPACE`
 
 Other environment variables may be configured to pass data into Terraform. If the data is sensitive, consider using [secrets](#secrets) instead.
+
+```
+docker build -t ga .; docker run --rm -it --name ga -e "INPUT_TF_ACTIONS_VERSION=0.12.18" -e "INPUT_TF_ACTIONS_SUBCOMMAND=init" -e "INPUT_GCS_CREDS=$(cat ~/Downloads/sandbox-206f5e06136d.json | jq .)"  -e "INPUT_TF_ACTIONS_SUBCOMMAND=init" -e "INPUT_TF_ACTIONS_WORKING_DIR=src" -e "BACKEND_BUCKET=sandbox" -e "PERFIX=terraform/state" ga 
+```
