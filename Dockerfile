@@ -5,6 +5,6 @@ RUN ["/bin/sh", "-c", "apk add --update --no-cache bash ca-certificates curl git
 RUN ["bin/sh", "-c", "mkdir -p /src"]
 
 COPY ["src", "/src/"]
-COPY tmp/ /src/
+#COPY tmp/ /src/
 
 ENTRYPOINT ["/src/main.sh"]
