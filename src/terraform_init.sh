@@ -18,31 +18,7 @@ function terraformGO {
         terraform apply -auto-approve
    )
    wait
-   applyOutput=${?}
 
-
-   # Exit code of 0 indicates success. Print the output and exit.
-   if [ ${initExitCode} -eq 0 ]; then
-     echo "init: info: successfully initialized Terraform configuration in ${tfWorkingDir}"
-     echo "${initOutput}"
-     echo
-#     exit ${initExitCode}
-   fi
-
-  # Exit code of 0 indicates success. Print the output and exit.
-  if [ ${applyExitCode} -eq 0 ]; then
-    echo "apply: info: successfully applied Terraform configuration in ${tfWorkingDir}"
-    echo "${applyOutput}"
-    echo
-    applyCommentStatus="Success"
-  fi
-
-  # Exit code of !0 indicates failure.
-  if [ ${applyExitCode} -ne 0 ]; then
-    echo "apply: error: failed to apply Terraform configuration in ${tfWorkingDir}"
-    echo "${applyOutput}"
-    echo
-  fi
 
    # Exit code of !0 indicates failure.
    echo "init: error: failed to initialize Terraform configuration in ${tfWorkingDir}"
@@ -67,7 +43,6 @@ function terraformGO {
     echo "${initPayload}" | curl -s -S -H "Authorization: token ${GITHUB_TOKEN}" --header "Content-Type: application/json" --data @- "${initCommentsURL}" > /dev/null
   fi
 
-#  exit ${initExitCode}
 
 # Comment on the pull request if necessary.
   if [ "$GITHUB_EVENT_NAME" == "pull_request" ] && [ "${tfComment}" == "1" ]; then
@@ -90,5 +65,5 @@ ${applyOutput}
     echo "${applyPayload}" | curl -s -S -H "Authorization: token ${GITHUB_TOKEN}" --header "Content-Type: application/json" --data @- "${applyCommentsURL}" > /dev/null
   fi
 
-  exit ${applyExitCode}
+  exit 1
 }
