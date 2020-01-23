@@ -4,6 +4,7 @@ function terraformInit {
   # Gather the output of `terraform init`.
   echo "init: info: initializing Terraform configuration in ${tfWorkingDir}"
   initOutput=$(terraform init -input=false ${*} 2>&1)
+  echo $initOutput
   initExitCode=${?}
 
   # Exit code of 0 indicates success. Print the output and exit.
