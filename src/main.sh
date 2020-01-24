@@ -136,7 +136,7 @@ function main {
       terraformPlan ${*}
       ;;
     go)
-      installTerraform
+#      installTerraform
       terraformGO ${*}
       ;;
     output)
