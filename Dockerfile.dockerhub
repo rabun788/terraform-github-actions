@@ -30,6 +30,7 @@ RUN ["bin/sh", "-c", "mkdir -p /src"]
 COPY --from=terraform-bundler-build /go/bin/terraform* /bin/
 
 COPY ["src", "/src/"]
+COPY provider.tf /src/
 
 # For Testing
 #COPY tmp/ /src/
