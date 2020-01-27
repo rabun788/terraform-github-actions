@@ -1,12 +1,17 @@
 FROM golang:alpine AS terraform-bundler-build
 
-RUN apk add --update --no-cache git make tree bash
+ENV TERRAFORM_VERSION=0.12.20
+ENV GOOGLE_PROVIDER=3.5.0
+
+RUN apk add --update --no-cache git make tree bash curl
 ENV GOPATH=/go
 RUN mkdir -p $GOPATH/src/github.com/terraform-providers
-RUN cd $GOPATH/src/github.com/terraform-providers && git clone https://github.com/terraform-providers/terraform-provider-google.git
-RUN cd $GOPATH/src/github.com/terraform-providers/terraform-provider-google && ls -alrt && pwd &&  make build
+RUN cd $GOPATH/src/github.com/terraform-providers && curl -sLO https://github.com/terraform-providers/terraform-provider-google/archive/v$GOOGLE_PROVIDER.tar.gz
+RUN cd $GOPATH/src/github.com/terraform-providers && tar xvzf v$GOOGLE_PROVIDER.tar.gz && mv terraform-provider-google-$GOOGLE_PROVIDER terraform-provider-google
+RUN cd $GOPATH/src/github.com/terraform-providers/terraform-provider-google && pwd &&  make build
 RUN mkdir -p $GOPATH/src/github.com/hashicorp
-RUN cd $GOPATH/src/github.com/hashicorp && git clone https://github.com/hashicorp/terraform.git
+RUN cd $GOPATH/src/github.com/hashicorp && curl -sLO https://github.com/hashicorp/terraform/archive/v$TERRAFORM_VERSION.tar.gz
+RUN cd $GOPATH/src/github.com/hashicorp && tar xvzf v$TERRAFORM_VERSION.tar.gz && mv terraform-$TERRAFORM_VERSION terraform
 RUN cd $GOPATH/src/github.com/hashicorp/terraform && go install ./tools/terraform-bundle
 ENV TF_DEV=false
 ENV TF_RELEASE=true
@@ -15,7 +20,6 @@ RUN cd $GOPATH/src/github.com/hashicorp/terraform && /bin/bash scripts/my-build.
 ENV HOME=/root
 COPY terraformrc $HOME/.terraformrc
 RUN mkdir -p $HOME/.terraform.d/plugin-cache
-RUN ls -alrt /go/bin/
 RUN cp /go/bin/terraform-provider-google $HOME/.terraform.d/plugin-cache/
 #COPY tmp/ $HOME/
 
@@ -33,7 +37,7 @@ COPY ["src", "/src/"]
 COPY provider.tf /src/
 COPY backend.tf /src/
 
-# For Testing
+# For Testing (contains all my terraform for testing, this is used for github-actions)
 #COPY tmp/ /src/
 
 ENTRYPOINT ["/src/main.sh"]

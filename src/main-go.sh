@@ -4,17 +4,6 @@ function stripColors {
   echo "${1}" | sed 's/\x1b\[[0-9;]*m//g'
 }
 
-function hasPrefix {
-  case ${2} in
-    "${1}"*)
-      true
-      ;;
-    *)
-      false
-      ;;
-  esac
-}
-
 function parseInputs {
   # Required inputs
   if [ "${INPUT_TF_ACTIONS_VERSION}" != "" ]; then
@@ -46,54 +35,28 @@ function parseInputs {
   if [ "${INPUT_GCS_CREDS}" != "" ]; then
     INPUT_GCS_CREDS=${INPUT_GCS_CREDS}
   fi
-  echo "Successfully downloaded Terraform v${tfVersion}"
 
-#  echo "Unzipping Terraform v${tfVersion}"
-#  unzip -d /usr/local/bin /tmp/terraform_${tfVersion} &> /dev/null
-#  if [ "${?}" -ne 0 ]; then
-#    echo "Failed to unzip Terraform v${tfVersion}"
-#    exit 1
-#  fi
-#  echo "Successfully unzipped Terraform v${tfVersion}"
 }
 
 function main {
+
   # Source the other files to gain access to their functions
   scriptDir=$(dirname ${0})
-  source ${scriptDir}/terraform_fmt.sh
+  source ${scriptDir}/terraform_go.sh
   source ${scriptDir}/terraform_init.sh
-  source ${scriptDir}/terraform_validate.sh
-  source ${scriptDir}/terraform_plan.sh
-  source ${scriptDir}/terraform_apply.sh
   source ${scriptDir}/terraform_output.sh
 
   parseInputs
-#  configureCLICredentials
+
   cd ${GITHUB_WORKSPACE}/${tfWorkingDir}
 
   case "${tfSubcommand}" in
-    fmt)
+
+    go)
 #      installTerraform
-      terraformFmt ${*}
-      ;;
-    init)
-#      installTerraform
-      terraformInit ${*}
-      ;;
-    validate)
-#      installTerraform
-      terraformValidate ${*}
-      ;;
-    plan)
-#      installTerraform
-      terraformPlan ${*}
-      ;;
-    apply)
-#      installTerraform
-      terraformApply ${*}
+      terraformGO ${*}
       ;;
     output)
-#      installTerraform
       terraformOutput ${*}
       ;;
     *)
